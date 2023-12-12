@@ -1,0 +1,53 @@
+#include<LiquidCrystal.h>
+LiquidCrystal lcd(2,3,4,5,6,7);
+#define in 8
+#define out 9
+#define buzz 10
+int count=0;
+
+void setup()
+{
+    lcd.begin(16,2);
+    lcd.print("COVID COUNTER");
+    delay (2000);
+    pinMode(in, INPUT);
+    pinMode(out, INPUT);
+    pinMode(buzz, OUTPUT);
+    lcd.clear();
+    lcd.print("Person In Toilet:");
+    lcd.setCursor(0,1);
+    lcd.print(count);
+}
+
+void loop()
+{
+    int in_value = digitalRead(in);
+    int out_value = digitalRead(out);
+    if(in_value == 1)
+   {
+        count++;
+        lcd.clear();
+        lcd.print("Person In Toilet:");
+        lcd.setCursor(0,1);
+        lcd.print(count);
+        delay(1000);
+    }
+    if(out_value == 1)
+    {
+        count--;
+        lcd.clear();
+        lcd.print("Person In Toilet:");
+        lcd.setCursor(0,1);
+        lcd.print(count);
+    }
+    if(count>=5)
+    {
+        lcd.clear();
+        digitalWrite(buzz, HIGH);
+    }
+    if(count<5)
+    {
+        lcd.clear();
+        digitalWrite(buzz, LOW);
+    }
+}
